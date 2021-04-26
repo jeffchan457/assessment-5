@@ -1,0 +1,18 @@
+{% extends 'locations/base.html' %}
+
+{% block content %}
+<div>
+  <div class="jumbotron m-5">
+    <h1 class="display-6 mb-3">Search locations in the US</h1>
+    <form action="{% url 'locations_list' %}"method='POST'>
+      {% csrf_token %}
+      <div class="form-group">
+        <input name='zip' type="text" class="form-contro form-control-lg" placeholder="5-digit zip code">
+      </div>
+      <button type="submit" class="btn btn-info btn-lg btn-block">Search</button>
+    </form>
+  </div>
+  <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Go to Reviews</a>
+  <a class="btn btn-medium" href="{% url 'logout' %}" role="button">Logout</a>
+</div>
+{% endblock %}

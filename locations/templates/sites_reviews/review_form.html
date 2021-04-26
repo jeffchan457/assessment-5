@@ -1,0 +1,12 @@
+{% extends 'sites_reviews/base.html' %}
+
+{% block content %}
+  <h1>{{ type }} {{ site.name }} Review</h1>
+  <form method="POST">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type='submit'>Save</button>
+  </form>
+  <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Back</a>
+  <a class="btn btn-medium" href="{% url 'logout' %}" role="button">Logout</a>
+{% endblock %}

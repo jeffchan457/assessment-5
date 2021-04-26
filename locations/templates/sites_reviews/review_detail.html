@@ -1,0 +1,12 @@
+{% extends 'sites_reviews/base.html' %}
+
+{% block content %}
+  <h1>Review: {{ review.topic }}</h1>
+  <a href="{% url 'review_edit' site_id=site.id review_id=review.id %}">Edit {{ review.review }}</a>
+  <form method='POST' action="{% url 'review_delete' site_id=site.id review_id=review.id %}">
+    {% csrf_token %}
+    <button type='submit'>Delete {{ review.topic }}</button>
+  </form>
+  <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Back</a>
+  <a class="btn btn-medium" href="{% url 'logout' %}" role="button">Logout</a>
+{% endblock %}

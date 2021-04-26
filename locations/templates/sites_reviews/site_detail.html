@@ -1,0 +1,22 @@
+{% extends 'sites_reviews/base.html' %}
+
+{% block content %}
+  <h1>{{ site.name }}</h1>
+  <a href="{% url 'site_edit' site.id %}">Edit {{ site.name }}</a>
+  <form method='POST' action="{% url 'site_delete' site.id %}">
+    {% csrf_token %}
+    <button type='submit'>Delete {{ site.name }}</button>
+  </form>
+  <!-- <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Back</a> -->
+  <hr>
+  <h1>{{ site.name }} Reviews</h1>
+  {% for review in site.reviews.all %}
+    <div>
+      <a href="{% url 'review_detail' site_id=site.id review_id=review.id %}">{{ review.topic }}</a>
+    </div>
+  {% endfor %}
+  <hr>
+  <a class="btn btn-medium" href="{% url 'new_review' site_id=site.id %}" role="button">Create New {{ site.name }} Review</a>
+  <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Back</a>
+  <a class="btn btn-medium" href="{% url 'logout' %}" role="button">Logout</a>
+{% endblock %}

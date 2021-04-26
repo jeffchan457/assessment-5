@@ -1,0 +1,13 @@
+{% extends 'sites_reviews/base.html' %}
+
+{% block content %}
+  <h1>All Reviews</h1>
+  {% for review in all_reviews %}
+  <div>
+    <a href="{% url 'review_detail' site_id=review.site.id review_id=review.id %}">{{ review.topic }}</a>
+  </div>
+  {% endfor %}
+  <hr>
+  <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Back</a>
+  <a class="btn btn-medium" href="{% url 'logout' %}" role="button">Logout</a>
+{% endblock %}
