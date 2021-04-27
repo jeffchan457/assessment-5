@@ -20,7 +20,7 @@
     <div class="jumbotron m-5">
       <a class="btn btn-danger btn-lg" href="{% url 'search_form' %}" role="button">Back to search</a>
     </div>
-    <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Go to Reviews</a>
+    <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Go to Reviews & Notes</a>
     <a class="btn btn-medium" href="{% url 'logout' %}" role="button">Logout</a>
   {% else %}
     <div class="jumbotron m-5">
@@ -28,7 +28,7 @@
       <hr class="my-4">
       <a class="btn btn-danger btn-lg" href="{% url 'search_form' %}" role="button">Back to search</a>
     </div>
-    <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Go to Reviews</a>
+    <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Go to Reviews & Notes</a>
     <a class="btn btn-medium" href="{% url 'logout' %}" role="button">Logout</a>
   {% endif %}
 {% endblock %}

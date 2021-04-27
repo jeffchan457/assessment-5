@@ -15,4 +15,11 @@ urlpatterns = [
     path('<int:site_id>/reviews/<int:review_id>/edit', views.review_edit, name='review_edit'),
     path('<int:site_id>/reviews/<int:review_id>/delete', views.review_delete, name='review_delete'),
     path('reviews', views.reviews, name='reviews'),
+
+    # Notes urls
+    path('<int:site_id>/notes/<int:note_id>', views.note_detail, name='note_detail'),
+    path('<int:site_id>/notes/new', views.new_note, name='new_note'),
+    path('<int:site_id>/notes/<int:note_id>/edit', views.note_edit, name='note_edit'),
+    path('<int:site_id>/notes/<int:note_id>/delete', views.note_delete, name='note_delete'),
+    path('notes', views.notes, name='notes'),
 ]

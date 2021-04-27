@@ -1,4 +1,4 @@
-{% extends 'sites_reviews/base.html' %}
+{% extends 'sites/base.html' %}
 
 {% block content %}
   <h1>{{ site.name }}</h1>
@@ -7,16 +7,25 @@
     {% csrf_token %}
     <button type='submit'>Delete {{ site.name }}</button>
   </form>
-  <!-- <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Back</a> -->
+
   <hr>
   <h1>{{ site.name }} Reviews</h1>
-  {% for review in site.reviews.all %}
-    <div>
-      <a href="{% url 'review_detail' site_id=site.id review_id=review.id %}">{{ review.topic }}</a>
-    </div>
-  {% endfor %}
+    {% for review in site.reviews.all %}
+      <div>
+        <a href="{% url 'review_detail' site_id=site.id review_id=review.id %}">{{ review.topic }}</a>
+      </div>
+    {% endfor %}
+
+  <hr>
+    <h1>{{ site.name }} Notes</h1>
+    {% for note in site.notes.all %}
+      <div>
+        <a href="{% url 'note_detail' site_id=site.id note_id=note.id %}">{{ note.topic }}</a>
+      </div>
+    {% endfor %}
   <hr>
   <a class="btn btn-medium" href="{% url 'new_review' site_id=site.id %}" role="button">Create New {{ site.name }} Review</a>
+  <a class="btn btn-medium" href="{% url 'new_note' site_id=site.id %}" role="button">Create New {{ site.name }} Note</a>
   <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Back</a>
   <a class="btn btn-medium" href="{% url 'logout' %}" role="button">Logout</a>
 {% endblock %}

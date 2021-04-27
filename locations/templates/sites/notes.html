@@ -1,10 +1,10 @@
-{% extends 'sites_reviews/base.html' %}
+{% extends 'sites/base.html' %}
 
 {% block content %}
-  <h1>All Reviews</h1>
-  {% for review in all_reviews %}
+  <h1>All Notes</h1>
+  {% for note in all_notes %}
   <div>
-    <a href="{% url 'review_detail' site_id=review.site.id review_id=review.id %}">{{ review.topic }}</a>
+    <a href="{% url 'note_detail' site_id=note.site.id note_id=note.id %}">{{ note.topic }}</a>
   </div>
   {% endfor %}
   <hr>

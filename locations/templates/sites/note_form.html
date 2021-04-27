@@ -1,7 +1,7 @@
-{% extends 'sites_reviews/base.html' %}
+{% extends 'sites/base.html' %}
 
 {% block content %}
-  <h1>{{ type }} {{ site.name }} Review</h1>
+  <h1>{{ type }} {{ site.name }} Note</h1>
   <form method="POST">
     {% csrf_token %}
     {{ form.as_p }}

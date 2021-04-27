@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 import requests as req
-from .models import Site, Review
-from .forms import SiteForm, ReviewForm
+from .models import Site, Review, Note
+from .forms import SiteForm, ReviewForm, NoteForm
 from django.http import HttpResponse, JsonResponse
 
 
@@ -45,11 +45,11 @@ def _generate_google_maps_url(location_data):
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 def sites(request):
     all_sites = Site.objects.all()
-    return render(request, 'sites_reviews/sites.html', {'all_sites': all_sites})
+    return render(request, 'sites/sites.html', {'all_sites': all_sites})
 
 def site_detail(request, site_id):
     site = Site.objects.get(id=site_id)
-    return render(request, 'sites_reviews/site_detail.html', {'site': site})
+    return render(request, 'sites/site_detail.html', {'site': site})
 
 def new_site(request):
     if request.method == "POST":
@@ -60,7 +60,7 @@ def new_site(request):
             return redirect('site_detail', site_id=site.id)
     else:
         form = SiteForm()
-    return render(request, 'sites_reviews/site_form.html', {'form': form, 'type': 'New'})
+    return render(request, 'sites/site_form.html', {'form': form, 'type': 'New'})
 
 def site_edit(request, site_id):
     site = Site.objects.get(id=site_id)
@@ -72,7 +72,7 @@ def site_edit(request, site_id):
             return redirect('site_detail', site_id=site.id)
     else:
         form = SiteForm(instance=site)
-    return render(request, 'sites_reviews/site_form.html', {'form': form, 'type': 'Edit'})
+    return render(request, 'sites/site_form.html', {'form': form, 'type': 'Edit'})
 
 def site_delete(request, site_id):
     if request.method == "POST":
@@ -83,7 +83,7 @@ def site_delete(request, site_id):
 def review_detail(request, site_id, review_id):
     site = Site.objects.get(id=site_id)
     review = Review.objects.get(id=review_id)
-    return render(request, 'sites_reviews/review_detail.html', {'site': site, 'review': review})
+    return render(request, 'sites/review_detail.html', {'site': site, 'review': review})
 
 def new_review(request, site_id):
     site = Site.objects.get(id=site_id)
@@ -95,7 +95,7 @@ def new_review(request, site_id):
             return redirect('review_detail', site_id=site.id, review_id=review.id)
     else:
         form = ReviewForm(initial={'site': site})
-    return render(request, 'sites_reviews/review_form.html', {'form': form, 'type': 'New', 'site': site})
+    return render(request, 'sites/review_form.html', {'form': form, 'type': 'New', 'site': site})
 
 def review_edit(request, site_id, review_id):
     site = Site.objects.get(id=site_id)
@@ -108,7 +108,7 @@ def review_edit(request, site_id, review_id):
             return redirect('review_detail', site_id=site.id, review_id=review.id)
     else:
         form = ReviewForm(instance=review)
-    return render(request, 'sites_reviews/review_form.html', {'form': form, 'type': 'Edit', 'site': site})
+    return render(request, 'sites/review_form.html', {'form': form, 'type': 'Edit', 'site': site})
 
 def review_delete(request, site_id, review_id):
     if request.method == "POST":
@@ -118,4 +118,48 @@ def review_delete(request, site_id, review_id):
 
 def reviews(request):
     all_reviews = Review.objects.all()
-    return render(request, 'sites_reviews/reviews.html', {'all_reviews': all_reviews})
+    return render(request, 'sites/reviews.html', {'all_reviews': all_reviews})
+
+
+
+
+
+def note_detail(request, site_id, note_id):
+    site = Site.objects.get(id=site_id)
+    note = Note.objects.get(id=note_id)
+    return render(request, 'sites/note_detail.html', {'site': site, 'note': note})
+
+def new_note(request, site_id):
+    site = Site.objects.get(id=site_id)
+    if request.method == "POST":
+        form = NoteForm(request.POST)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.save()
+            return redirect('note_detail', site_id=site.id, note_id=note.id)
+    else:
+        form = NoteForm(initial={'site': site})
+    return render(request, 'sites/note_form.html', {'form': form, 'type': 'New', 'site': site})
+
+def note_edit(request, site_id, note_id):
+    site = Site.objects.get(id=site_id)
+    note = Note.objects.get(id=note_id)
+    if request.method == "POST":
+        form = NoteForm(request.POST, instance=note)
+        if form.is_valid():
+            note = form.save(commit=False)
+            note.save()
+            return redirect('note_detail', site_id=site.id, note_id=note.id)
+    else:
+        form = NoteForm(instance=note)
+    return render(request, 'sites/note_form.html', {'form': form, 'type': 'Edit', 'site': site})
+
+def note_delete(request, site_id, note_id):
+    if request.method == "POST":
+        note = Note.objects.get(id=note_id)
+        note.delete()
+    return redirect('site_detail', site_id=site_id)
+
+def notes(request):
+    all_notes = Note.objects.all()
+    return render(request, 'sites/notes.html', {'all_notes': all_notes})

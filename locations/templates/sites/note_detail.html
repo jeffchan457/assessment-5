@@ -1,0 +1,12 @@
+{% extends 'sites/base.html' %}
+
+{% block content %}
+  <h1>Note: {{ note.topic }}</h1>
+  <a href="{% url 'note_edit' site_id=site.id note_id=note.id %}">Edit {{ note.note }}</a>
+  <form method='POST' action="{% url 'note_delete' site_id=site.id note_id=note.id %}">
+    {% csrf_token %}
+    <button type='submit'>Delete {{ note.topic }}</button>
+  </form>
+  <a class="btn btn-medium" href="{% url 'sites' %}" role="button">Back</a>
+  <a class="btn btn-medium" href="{% url 'logout' %}" role="button">Logout</a>
+{% endblock %}
