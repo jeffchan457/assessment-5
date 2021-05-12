@@ -3,8 +3,10 @@ import requests as req
 from .models import Site, Review, Note
 from .forms import SiteForm, ReviewForm, NoteForm
 from django.http import HttpResponse, JsonResponse
+# newly added:
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def search_form(request):
     return render(request, 'locations/search_form.html')
 
@@ -43,14 +45,17 @@ def _generate_google_maps_url(location_data):
     return location_data
 
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@login_required
 def sites(request):
     all_sites = Site.objects.all()
     return render(request, 'sites/sites.html', {'all_sites': all_sites})
 
+@login_required
 def site_detail(request, site_id):
     site = Site.objects.get(id=site_id)
     return render(request, 'sites/site_detail.html', {'site': site})
 
+@login_required
 def new_site(request):
     if request.method == "POST":
         form = SiteForm(request.POST)
@@ -62,6 +67,7 @@ def new_site(request):
         form = SiteForm()
     return render(request, 'sites/site_form.html', {'form': form, 'type': 'New'})
 
+@login_required
 def site_edit(request, site_id):
     site = Site.objects.get(id=site_id)
     if request.method == "POST":
@@ -74,17 +80,20 @@ def site_edit(request, site_id):
         form = SiteForm(instance=site)
     return render(request, 'sites/site_form.html', {'form': form, 'type': 'Edit'})
 
+@login_required
 def site_delete(request, site_id):
     if request.method == "POST":
         site = Site.objects.get(id=site_id)
         site.delete()
     return redirect('sites')
 
+@login_required
 def review_detail(request, site_id, review_id):
     site = Site.objects.get(id=site_id)
     review = Review.objects.get(id=review_id)
     return render(request, 'sites/review_detail.html', {'site': site, 'review': review})
 
+@login_required
 def new_review(request, site_id):
     site = Site.objects.get(id=site_id)
     if request.method == "POST":
@@ -97,6 +106,7 @@ def new_review(request, site_id):
         form = ReviewForm(initial={'site': site})
     return render(request, 'sites/review_form.html', {'form': form, 'type': 'New', 'site': site})
 
+@login_required
 def review_edit(request, site_id, review_id):
     site = Site.objects.get(id=site_id)
     review = Review.objects.get(id=review_id)
@@ -110,25 +120,25 @@ def review_edit(request, site_id, review_id):
         form = ReviewForm(instance=review)
     return render(request, 'sites/review_form.html', {'form': form, 'type': 'Edit', 'site': site})
 
+@login_required
 def review_delete(request, site_id, review_id):
     if request.method == "POST":
         review = Review.objects.get(id=review_id)
         review.delete()
     return redirect('site_detail', site_id=site_id)
 
+@login_required
 def reviews(request):
     all_reviews = Review.objects.all()
     return render(request, 'sites/reviews.html', {'all_reviews': all_reviews})
 
-
-
-
-
+@login_required
 def note_detail(request, site_id, note_id):
     site = Site.objects.get(id=site_id)
     note = Note.objects.get(id=note_id)
     return render(request, 'sites/note_detail.html', {'site': site, 'note': note})
 
+@login_required
 def new_note(request, site_id):
     site = Site.objects.get(id=site_id)
     if request.method == "POST":
@@ -141,6 +151,7 @@ def new_note(request, site_id):
         form = NoteForm(initial={'site': site})
     return render(request, 'sites/note_form.html', {'form': form, 'type': 'New', 'site': site})
 
+@login_required
 def note_edit(request, site_id, note_id):
     site = Site.objects.get(id=site_id)
     note = Note.objects.get(id=note_id)
@@ -154,12 +165,14 @@ def note_edit(request, site_id, note_id):
         form = NoteForm(instance=note)
     return render(request, 'sites/note_form.html', {'form': form, 'type': 'Edit', 'site': site})
 
+@login_required
 def note_delete(request, site_id, note_id):
     if request.method == "POST":
         note = Note.objects.get(id=note_id)
         note.delete()
     return redirect('site_detail', site_id=site_id)
 
+@login_required
 def notes(request):
     all_notes = Note.objects.all()
     return render(request, 'sites/notes.html', {'all_notes': all_notes})
